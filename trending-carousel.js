@@ -32,7 +32,7 @@
     },
   ];
 
-  const getProductCardHTML = (active) => ({ id, title, imageName, price }, index) => `
+  const getProductCardHTML = (activeIndex) => ({ id, title, imageName, price }, index) => `
     <article class="trending__card-item ${activeIndex === index ? 'active-item' : ''}">
     <a class="trending__img-link" href="#">
         <img class="trending__img" src="trending/${imageName}.png"
