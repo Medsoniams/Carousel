@@ -72,6 +72,10 @@
 }
 
 .trending__card-item {
+  display: none;
+}
+
+.trending__card-item.active-item {
   max-width: 100%;
   flex: 1 0 100%;
   display: flex;

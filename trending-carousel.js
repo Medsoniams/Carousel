@@ -3,39 +3,39 @@
     {
       id: "1",
       title: "DORA Metal Pet Brush",
-      imageURL: "trending/metal_pet_brush.png",
+      imageName: "metal_pet_brush",
       price: 15,
     },
     {
       id: "2",
       title: "Kitten's Heaven Set",
-      imageURL: "trending/heaven_set.png",
+      imageName: "heaven_set",
       price: 12,
     },
     {
       id: "3",
       title: "OPTY Pet Carrier",
-      imageURL: "trending/opty_pet_carrier.png",
+      imageName: "opty_pet_carrier",
       price: 8,
     },
     {
       id: "4",
       title: "AGA Rope Toy",
-      imageURL: "trending/rope_toy.png",
+      imageName: "rope_toy",
       price: 5,
     },
     {
       id: "5",
       title: "DORA Pet Carrier",
-      imageURL: "trending/dora_pet_carrier.png",
+      imageName: "dora_pet_carrier",
       price: 23,
     },
   ];
 
-  const getProductCardHTML = ({ id, title, imageURL, price }) => `
-    <article class="trending__card-item">
+  const getProductCardHTML = (active) => ({ id, title, imageName, price }, index) => `
+    <article class="trending__card-item ${activeIndex === index ? 'active-item' : ''}">
     <a class="trending__img-link" href="#">
-        <img class="trending__img" src="${imageURL}"
+        <img class="trending__img" src="trending/${imageName}.png"
             alt="${title}">
     </a>
     <h4 class="trending__name">
@@ -48,23 +48,24 @@
 
 
   const initProducts = (products) => {
+    let currentActiveIndex = 0;
+
     const $productsContainer = document.querySelector(
       ".trending__cards-wrapper"
     );
 
-    $productsContainer.innerHTML = products.map(getProductCardHTML).join("");
+    $productsContainer.innerHTML = products.map(getProductCardHTML(currentActiveIndex)).join("");
 
-    let currentActiveIndex = 0;
 
-    const $trendingArrowRight = document.querySelector("trending__arrow-right");
-    const $trendingArrowLeft = document.querySelector("trending__arrow-left");
+    const $trendingArrowRight = document.querySelector(".trending__arrow-right");
+    const $trendingArrowLeft = document.querySelector(".trending__arrow-left");
 
     const changeActiveItem = (activeIndex) => {
       const $trendingCardItems = $productsContainer.querySelectorAll(
         ".trending__card-item"
       );
       $trendingCardItems.forEach(($card, index) => {
-        $card.classList[index === currentActiveIndex ? "add" : "remove"](
+        $card.classList[index === activeIndex ? "add" : "remove"](
           "active-item"
         );
       });
@@ -83,8 +84,8 @@
     $trendingArrowLeft.addEventListener("click", () => {
       currentActiveIndex -= 1;
 
-      if (currentActiveIndex > products.length - 1) {
-        currentActiveIndex = 0;
+      if (currentActiveIndex < 0) {
+        currentActiveIndex = products.length - 1;
       }
 
       changeActiveItem(currentActiveIndex);
